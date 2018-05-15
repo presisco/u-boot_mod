@@ -62,6 +62,11 @@
 	#define CONFIG_QCA_GPIO_MASK_IN		GPIO0 | GPIO16 | GPIO17
 	#define CONFIG_QCA_GPIO_MASK_OUT_INIT_H	GPIO2
 	#define CONFIG_QCA_GPIO_MASK_OUT_INIT_L	GPIO12
+	
+#elif defined(CONFIG_FOR_MAGICBOX_AC750)
+
+	#define CONFIG_QCA_GPIO_MASK_LED_ACT_L	GPIO14
+	#define CONFIG_QCA_GPIO_MASK_IN		GPIO17
 
 #elif defined(CONFIG_FOR_P2W_CPE505N)
 
@@ -230,6 +235,12 @@
 				"rootfstype=squashfs init=/sbin/init "\
 				"mtdparts=spi0.0:256k(u-boot)ro,64k(u-boot-env),64k(art)ro,16000k(firmware)"
 
+#elif defined(CONFIG_FOR_MAGICBOX_AC750)
+
+	#define CONFIG_BOOTARGS	"console=ttyS0,115200 root=31:01 "\
+				"rootfstype=squashfs init=/sbin/init "\
+				"ath-nor0:128k(u-boot),16192k@0x20000(firmware),64k@0xff0000(art)"
+				
 #elif defined(CONFIG_FOR_P2W_CPE505N)    ||\
       defined(CONFIG_FOR_P2W_R602N)      ||\
       defined(CONFIG_FOR_YUNCORE_AP90Q)  ||\
@@ -316,7 +327,8 @@
       defined(CONFIG_FOR_TPLINK_WR841N_V11)          ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V9)           ||\
       defined(CONFIG_FOR_TPLINK_WR842N_V3)           ||\
-      defined(CONFIG_FOR_TPLINK_WR902AC_V1)
+      defined(CONFIG_FOR_TPLINK_WR902AC_V1)          ||\
+      defined(CONFIG_FOR_MAGICBOX_AC750)
 
 	#define CFG_LOAD_ADDR	0x9F020000
 
@@ -387,7 +399,8 @@
       defined(CONFIG_FOR_TPLINK_WR841N_V11)          ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V9)           ||\
       defined(CONFIG_FOR_TPLINK_WR842N_V3)           ||\
-      defined(CONFIG_FOR_TPLINK_WR902AC_V1)
+      defined(CONFIG_FOR_TPLINK_WR902AC_V1)          ||\
+      defined(CONFIG_FOR_MAGICBOX_AC750)
 
 	#define CFG_ENV_ADDR		0x9F01EC00
 	#define CFG_ENV_SIZE		0x1000
@@ -480,7 +493,8 @@
       defined(CONFIG_FOR_TPLINK_WR841N_V10)   ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V11)   ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V9)    ||\
-      defined(CONFIG_FOR_TPLINK_WR842N_V3)
+      defined(CONFIG_FOR_TPLINK_WR842N_V3)    ||\
+	  defined(CONFIG_FOR_MAGICBOX_AC750)
 
 	#define OFFSET_MAC_DATA_BLOCK		0x010000
 	#define OFFSET_MAC_DATA_BLOCK_LENGTH	0x010000
@@ -587,7 +601,8 @@
       defined(CONFIG_FOR_TPLINK_WR841N_V10)          ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V11)          ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V9)           ||\
-      defined(CONFIG_FOR_TPLINK_WR842N_V3)
+      defined(CONFIG_FOR_TPLINK_WR842N_V3)           ||\
+	  defined(CONFIG_FOR_MAGICBOX_AC750)
 
 	#define WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES	(192 * 1024)
 
@@ -658,7 +673,8 @@
       defined(CONFIG_FOR_TPLINK_WR841N_V11)          ||\
       defined(CONFIG_FOR_TPLINK_WR841N_V9)           ||\
       defined(CONFIG_FOR_TPLINK_WR842N_V3)           ||\
-      defined(CONFIG_FOR_TPLINK_WR902AC_V1)
+      defined(CONFIG_FOR_TPLINK_WR902AC_V1)          ||\
+	  defined(CONFIG_FOR_MAGICBOX_AC750)
 
 	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_OFFSET	0x10000
 	#define CONFIG_QCA_PLL_IN_FLASH_BLOCK_SIZE	0x10000
@@ -704,6 +720,7 @@
     !defined(CONFIG_FOR_COMFAST_CF_E530N)      &&\
     !defined(CONFIG_FOR_GLINET_GL_AR300M_LITE) &&\
     !defined(CONFIG_FOR_GLINET_GL_AR750)       &&\
+    !defined(CONFIG_FOR_MAGICBOX_AC750)       &&\
     !defined(CONFIG_FOR_P2W_CPE505N)           &&\
     !defined(CONFIG_FOR_P2W_R602N)             &&\
     !defined(CONFIG_FOR_WALLYS_DR531)          &&\

@@ -13,7 +13,11 @@
 
 #include <soc/qca_soc_common.h>
 
-/* CPU_PLL_CONFIG */
+/** 
+	CPU_PLL_CONFIG
+	clock = refclk * _nint / _refdiv / ( _outdiv + 1 )
+	others unknown
+*/
 #define _qca95xx_cpu_pll_cfg_reg_val(_nint,   \
 				     _refdiv, \
 				     _range,  \
@@ -26,7 +30,11 @@
 	((_outdiv << QCA_PLL_CPU_PLL_CFG_OUTDIV_SHIFT) & QCA_PLL_CPU_PLL_CFG_OUTDIV_MASK) |\
 	((_dis    << QCA_PLL_CPU_PLL_CFG_PLLPWD_SHIFT) & QCA_PLL_CPU_PLL_CFG_PLLPWD_MASK)
 
-/* DDR_PLL_CONFIG */
+/**
+	DDR_PLL_CONFIG 
+	clock = refclk * _nint / _refdiv / ( _outdiv + 1 )
+	others unknown	
+*/
 #define _qca95xx_ddr_pll_cfg_reg_val(_nint,   \
 				     _refdiv, \
 				     _range,  \
@@ -39,7 +47,11 @@
 	((_outdiv << QCA_PLL_DDR_PLL_CFG_OUTDIV_SHIFT) & QCA_PLL_DDR_PLL_CFG_OUTDIV_MASK) |\
 	((_dis    << QCA_PLL_DDR_PLL_CFG_PLLPWD_SHIFT) & QCA_PLL_DDR_PLL_CFG_PLLPWD_MASK)
 
-/* CPU_DDR_CLOCK_CONTROL */
+/** 
+	CPU_DDR_CLOCK_CONTROL 
+	@_cpudiv, @_ddrdiv, @_ahbdiv: n for total_clk div n, the last div
+	@ _cpu_from_cpupll, @_ddr_from_ddrpll, @_ahb_from_ddrpll: 0 for cpu ref, 1 for ddr ref
+*/
 #define _qca95xx_cpu_ddr_clk_ctrl_reg_val(_cpudiv,          \
 					  _ddrdiv,          \
 					  _ahbdiv,          \
@@ -1253,6 +1265,116 @@
 
 	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(16, 1, 0, 0, 0)
 	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(11, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+/* ----------------------------------------------- Overclock Profiles ---------------------------------- */
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_800_600_200)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(32, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(20, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_800_600_266)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(32, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 0)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(20, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 0)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_800_600_300)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(32, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(20, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_900_600_200)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(36, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(22, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_900_600_240)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(36, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(48, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 2, 5, 1, 1, 0)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(22, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(30, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 2, 5, 1, 1, 0)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_900_600_300)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(36, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(22, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)	
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_1000_600_200)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(40, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(25, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 3, 1, 1, 1)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_1000_600_250)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(40, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 4, 1, 1, 0)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(25, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 4, 1, 1, 0)
+	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
+	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
+	
+#elif (CONFIG_QCA_PLL == QCA_PLL_PRESET_1000_600_300)	/* Overclock! */
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL25		_qca95xx_cpu_pll_cfg_reg_val(40, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL25		_qca95xx_ddr_pll_cfg_reg_val(24, 1, 1, 0, 0)
+	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL25		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
+
+	#define QCA_PLL_CPU_PLL_CFG_REG_VAL_XTAL40		_qca95xx_cpu_pll_cfg_reg_val(25, 1, 0, 0, 0)
+	#define QCA_PLL_DDR_PLL_CFG_REG_VAL_XTAL40		_qca95xx_ddr_pll_cfg_reg_val(15, 1, 1, 0, 0)
 	#define QCA_PLL_CPU_DDR_CLK_CTRL_REG_VAL_XTAL40		_qca95xx_cpu_ddr_clk_ctrl_reg_val(1, 1, 2, 1, 1, 1)
 	#define QCA_PLL_CPU_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_cpu_pll_dither_reg_val(16)
 	#define QCA_PLL_DDR_PLL_DITHER_REG_VAL_XTAL40		_qca95xx_ddr_pll_dither_reg_val(256)
